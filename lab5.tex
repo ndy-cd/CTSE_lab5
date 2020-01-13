@@ -9,6 +9,10 @@
 \usepackage{mathtools}			% математический пакет (включает ams)
 \usepackage[thinc]{esdiff}			% производные
 \usepackage{graphicx}				% изображения
+\usepackage{listings}				% програмный код
+\lstset{
+	numbers=left               
+}
 
 \author{Бартая Нодари ФМ-101}
 \title{ОТЧЁТ\\ Компьютерные технологии в\\ науке и образовании\\ Задание № 5}
@@ -17,19 +21,18 @@
 \begin{document}
 
 \maketitle
+\newpage
 \section{Постановка задачи}
 
 Требуется рассчитать траекторию движения электрона в скрещенных
 постоянных магнитном и электрическом полях. 
-С напряженностями 10 А/м и 10 В/м, соответственно. 
-Начальная скорость электрона направлена перпендикулярно вектору напряженности магнитного поля и составляет 10 см/с. 
-Как будет меняться скорость движения электрона? 
-Вычисления проводить в нерелятивистском пределе.
+С компонентами $\mathbf{E}=(E_x, 0, 0)$, $\mathbf{B}=(0, 0, B_z)$ и напряженностями 10 А/м и 10 В/м  соответственно. 
+Начальная скорость электрона $\mathbf{v}_0$ направлена перпендикулярно вектору напряженности магнитного поля и составляет 10 см/с.
+Геометрия задачи представлена на рисунке ниже.%\ref{problem} (стр. \pageref{problem}).
 
-Тут будет ещё рисунок.
-\begin{figure}\label{problem}
-	\centering
-	\includegraphics[width=\linewidth]{problem.pdf}
+\begin{figure}[h]\label{problem}
+
+	\includegraphics[width=\textwidth]{problem.pdf}
 	\caption{Электрон в электромагнитном поле. Геометрия задачи, начальные условия.}
 \end{figure}
 
@@ -73,14 +76,33 @@ v_z = v_{0z} + \left[ e E_z + \frac{e}{c} \left( v_x B_y - B_x V_y \right) \righ
 
 \begin{equation}
 	\begin{cases}
-		\dot{v_x} \diffp{v_x}{t} = \left[eE_x + \dfrac{e}{c}\left(v_yB\right)\right]m^{-1}	
+		\dot{v_x} \diffp{v_x}{t} = \left[eE_x + \dfrac{e}{c}\left(v_yB_z\right)\right]m^{-1}	
 											& 	v_x(0) = 10 \\
-		\dot{v_y} = \dfrac{e}{mc} v_x B		&	v_y(0) = 0 \\
+		\dot{v_y} = \dfrac{e}{mc} v_x B_z	&	v_y(0) = 0 \\
 		\dot{r_y} = v_y						&	r_x(0) = 1 \\
 		\dot{r_y} = v_y						&	r_y(0) = 1 
 	\end{cases}
 \end{equation}
 
+Данная система решается с помощью модуля integrate библиотеки scipy для языка программирования python. Код программы приведен в разделе \ref{code}. На рисунках \ref{graph_t}, \ref{graph_s} представлены тракетория частицы и зависимость компонент скоростей от времени. 
+
+\begin{figure}
+
+	\includegraphics[width=\textwidth]{plotTrajectory.pdf}
+	\caption{Электрон в электромагнитном поле. Геометрия задачи, начальные условия.}
+	\label{graph_t}
+\end{figure}
+
+\begin{figure}
+
+	\includegraphics[width=\linewidth]{plotSpeed.pdf}
+	\caption{Электрон в электромагнитном поле. Геометрия задачи, начальные условия.}
+	\label{graph_s}
+\end{figure}
+
+\newpage
+\section{Код программы}\label{code}
+\lstinputlisting[language=Python, firstline=1, lastline=32]{lab5.py}
 
 
 
