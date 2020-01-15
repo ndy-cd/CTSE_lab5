@@ -2,11 +2,10 @@
 
 %\usepackage{fullpage}
 \usepackage[14pt]{extsizes}			% размер шрифта
-\usepackage{cmap}				% поиск в PDF
 \usepackage[T2A]{fontenc}			% кодировка
 \usepackage[utf8]{inputenc}			% кодировка исходного текста
 \usepackage[english,russian]{babel}	% локализация и переносы
-\usepackage{mathtools}			% математический пакет (включает ams)
+\usepackage{mathtools}				% математический пакет (включает ams)
 \usepackage[thinc]{esdiff}			% производные
 \usepackage{graphicx}				% изображения
 \usepackage{listings}				% програмный код
@@ -49,26 +48,6 @@ m\diff{\mathbf{v}}{t} = \mathbf{F},
 \end{equation}
 где $e$ - заряд частицы, $с$ - скорость света, $\mathbf{E}$ и $\mathbf{B}$ - напряженности электрического и магнитного поля, соответственно.
 
-\subsection{Неправильная попытка}
-Уравнение движения \eqref{motion} относится ко классу дифференциальных уравнений с разделяющимися переменными. Таким образом, мы можем проинтегрировать уравнение движения и получить зависимость скорости от времени.
-
-\begin{equation}\label{intmotion}
-\int \mathrm{d}v =\int e \mathbf{E} + \frac{e}{c}\left[\mathbf{vB}\right] \, \mathrm{d}t
-\end{equation}
-
-Заряд частицы, скорость света и напряженности полей - постоянные величины. В этом случае, можно записать выражения для компонент скоростей в проекциях на оси координат:
-
-\begin{equation}\label{velocity_components}
-\begin{aligned}
-v_x = v_{0x} + \left[ e E_x + \frac{e}{c} \left( v_y B_z - B_y V_z \right) \right] t \\
-v_y = v_{0y} + \left[ e E_y + \frac{e}{c} \left( v_x B_z - B_x V_z \right) \right] t \\
-v_z = v_{0z} + \left[ e E_z + \frac{e}{c} \left( v_x B_y - B_x V_y \right) \right] t
-\end{aligned}
-\end{equation}
-
-Скорость, по определению, $\mathbf{v} = d\mathbf{r}/dt$, где $\mathbf{r}$ - радиус вектор положения частицы в пространстве. Подставив уже выведенные выражения для компонент скоростей и проинтегрировав аналогичным образом получим выражения для координат частицы:
-
-\subsection{Решение}
 Используя уравнения \eqref{motion} и \eqref{lorenz}, с учётом геометрии задачи \ref{problem} запишем следующую систему уравнений.
 \begin{equation}\label{v_system}
 \begin{cases}
@@ -93,56 +72,56 @@ v_x = C_1\, e^{\gamma t} + C_2\, e^{-\gamma t}
 v_y = C_1 \, e^{\gamma t} - C_2 \, e^{-\gamma t} + C_3 .
 \end{equation}
 Продифференцируем по времени общее решение для $v_x$ \eqref{vx_common} и приравняем к первому уравнению системы \eqref{v_system}. В правой части подставим $v_y$ из \eqref{vy_common}. Произведя тривиальные преобразования найдём, что $C_3 = -\xi$, где $\xi = cE_xB_z^{-1}$ Далее, используя начальные условия определим константы - $C_1 = 5 + \xi$ и $C_2 = 5 - \xi$. Таким образом, решением системы уравений \eqref{v_system} будет:
-
 \begin{align}\label{analytic}
 v_x &= (5 + \xi)e^{\gamma t} + (5 - \xi)e^{-\gamma t} \\
 v_y &= (5 + \xi)e^{\gamma t} - (5 - \xi)e^{-\gamma t} -\xi 
 \end{align}
 
 \section{Численное решение}
-
 Согласно уравнениям \eqref{motion}, \eqref{lorenz} численное решение для координаты частицы и скорости её движения в зависимости от времени будем искать для следующей системы дифференциальных уравнений первого порядка в соответсвии с геометрией задачи \ref{problem}.
-
 \begin{equation}
 	\begin{cases}
-		\dot{v_x} \diffp{v_x}{t} = \left[eE_x + \dfrac{e}{c}\left(v_yB_z\right)\right]m^{-1}	
-											& 	v_x(0) = 10 \\
-		\dot{v_y} = \dfrac{e}{mc} v_x B_z	&	v_y(0) = 0 \\
-		\dot{r_y} = v_y						&	r_x(0) = 1 \\
+		\dot{v_x} = \left[eE_x + \dfrac{e}{c}\left(v_yB_z\right)\right]m^{-1}	
+											& 	v_x(0) = 10 \\[10pt]
+		\dot{v_y} = \dfrac{e}{mc} v_x B_z	&	v_y(0) = 0 \\[10pt]
+		\dot{r_y} = v_y						&	r_x(0) = 1 \\[10pt]
 		\dot{r_y} = v_y						&	r_y(0) = 1 
 	\end{cases}
 \end{equation}
+Данная система решается с помощью модуля integrate библиотеки scipy для языка программирования python. Код программы приведен в разделе \ref{code}. 
 
-Данная система решается с помощью модуля integrate библиотеки scipy для языка программирования python. Код программы приведен в разделе \ref{code}. На рисунках \ref{graph_t}, \ref{graph_s} представлены тракетория частицы и зависимость компонент скоростей от времени. 
+На рисунке \ref{graph_t} представлена траектория частицы от начального положения до момента $t = 1$ мкс. На рисункe \ref{graph_s} представлен график компонент скоростей частицы от времени. Точечными линиями показано аналитическое решение.  Рисунок \ref{graph_m} показывает ошибку численного решения относительно аналитического в разные моменты времени.
+
+Рисунки построены с помощью библиотеки matplotlib.
 
 \begin{figure}
-
-	\includegraphics[width=\textwidth]{plotTrajectory.pdf}
-	\caption{Электрон в электромагнитном поле. Геометрия задачи, начальные условия.}
+	\centering
+	\includegraphics[width=0.8\textwidth]{plotTrajectory.pdf}
+	\caption{Траектория частицы за интервал времени $t = [0, 1\text{e-}3]$ сек.}
 	\label{graph_t}
 \end{figure}
 
 \begin{figure}
-
-	\includegraphics[width=\linewidth]{plotSpeed.pdf}
-	\caption{Электрон в электромагнитном поле. Геометрия задачи, начальные условия.}
+	\centering
+	\includegraphics[width=0.8\linewidth]{plotSpeed.pdf}
+	\caption{Зависимость компонент скоростей частицы от времени. Сплошные линии - численное решение, прерывистые линии - аналитическое}
 	\label{graph_s}
 \end{figure}
 
-\newpage
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\linewidth]{plotMistake.pdf}
+	\caption{График зависимости относительной ошибки численного решения для компонент скоростей.}
+	\label{graph_m}
+\end{figure}
+
+\section{Заключение}
+Поставленная задача выполнена в полном объеме. Приведена постановка задачи и соответствующий рисунок. Аналитическое решение получено в предположении о том, что скорость частицы много меньше скорости света. Численное решение получено с помощью средств для языка python,  а именно библиотек scipy, numpy. Относительная погрешность имеет порядок  $1\text{e-}8$, что является очень хорошим результатом. 
+
+Но, стоит обратить особое внимание на то, что за времена менее одной микросекунды частица разгоняется до околосветовых скоростей, следовательно, требуется учитывать релятивистские эффекты.
+
+\clearpage
 \section{Код программы}\label{code}
 \lstinputlisting[language=Python, firstline=1, lastline=32]{lab5.py}
-
-
-
-
-
-
-
-
-
-
-
-
 
 \end{document} % Конец текста.
