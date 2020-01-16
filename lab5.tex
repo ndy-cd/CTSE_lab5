@@ -12,6 +12,11 @@
 \lstset{
 	numbers=left               
 }
+\usepackage{setspace}
+\onehalfspacing						% полуторный интервал
+
+\usepackage{tocloft}				% точки в содержании для \section
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 
 \author{Бартая Нодари ФМ-101}
 \title{ОТЧЁТ\\ Компьютерные технологии в\\ науке и образовании\\ Задание № 5}
@@ -19,10 +24,47 @@
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+	\begin{center}
+	Федеральное государственное бюджетное образовательноe учреждение высшего образования \\
+	\textbf{«Челябинский государственный университет» \\ (ФГБОУ ВО «ЧелГУ»)}
+	\end{center}
+	\begin{center}
+		Факультет физический			\\
+		Кафедра теоретической физики	\\
+		Направление 03.04.02 Физика		\\
+		Направленность Теоретическая и математическая физика
+	\end{center}
+	\vfill
+	\begin{center}
+		\textbf{ОТЧЁТ}
+	\end{center}
+	\begin{center}
+		\textsc{\textbf{Компьютерные технологии\\ в науке и образовании\\ Задание № 5}}
+	\end{center}
+	\vfill
+	\newbox{\lbox}
+	\savebox{\lbox}{\hbox{ПупИванович}}
+	\newlength{\maxl}
+	\setlength{\maxl}{\wd\lbox}
+	\hfill\parbox{10cm}{
+		\begin{flushright}
+		\hfill Преподаватель:   \hbox to\maxl{Хайбрахманов С. А.\hfill}\\
+		\hfill Студент:   \hbox to\maxl{Бартая Н.В.\hfill}\\
+		\hfill Группа:   \hbox to\maxl{ФМ - 101\hfill}\\
+		\end{flushright}
+	}
+	\vfill
+	\begin{center}
+		Челябинск, 2020	
+	\end{center}
+\end{titlepage}
+
+%\maketitle
+\tableofcontents
+\setcounter{page}{2}
 \newpage
 \section{Постановка задачи}
-
 Требуется рассчитать траекторию движения электрона в скрещенных
 постоянных магнитном и электрическом полях. 
 С компонентами $\mathbf{E}=(E_x, 0, 0)$, $\mathbf{B}=(0, 0, B_z)$ и напряженностями 10 А/м и 10 В/м  соответственно. 
@@ -74,9 +116,10 @@ v_y = C_1 \, e^{\gamma t} - C_2 \, e^{-\gamma t} + C_3 .
 Продифференцируем по времени общее решение для $v_x$ \eqref{vx_common} и приравняем к первому уравнению системы \eqref{v_system}. В правой части подставим $v_y$ из \eqref{vy_common}. Произведя тривиальные преобразования найдём, что $C_3 = -\xi$, где $\xi = cE_xB_z^{-1}$ Далее, используя начальные условия определим константы - $C_1 = 5 + \xi$ и $C_2 = 5 - \xi$. Таким образом, решением системы уравений \eqref{v_system} будет:
 \begin{align}\label{analytic}
 v_x &= (5 + \xi)e^{\gamma t} + (5 - \xi)e^{-\gamma t} \\
-v_y &= (5 + \xi)e^{\gamma t} - (5 - \xi)e^{-\gamma t} -\xi 
+v_y &= (5 + \xi)e^{\gamma t} - (5 - \xi)e^{-\gamma t} -\xi \hspace{0.1 cm} .
 \end{align}
 
+\newpage
 \section{Численное решение}
 Согласно уравнениям \eqref{motion}, \eqref{lorenz} численное решение для координаты частицы и скорости её движения в зависимости от времени будем искать для следующей системы дифференциальных уравнений первого порядка в соответсвии с геометрией задачи \ref{problem}.
 \begin{equation}
@@ -93,7 +136,6 @@ v_y &= (5 + \xi)e^{\gamma t} - (5 - \xi)e^{-\gamma t} -\xi
 На рисунке \ref{graph_t} представлена траектория частицы от начального положения до момента $t = 1$ мкс. На рисункe \ref{graph_s} представлен график зависимости компонент скоростей частицы от времени. Точечными линиями показано аналитическое решение.  Рисунок \ref{graph_m} показывает ошибку численного решения относительно аналитического в разные моменты времени.
 
 Рисунки построены с помощью библиотеки matplotlib.
-
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\textwidth]{plotTrajectory.pdf}
@@ -122,6 +164,7 @@ v_y &= (5 + \xi)e^{\gamma t} - (5 - \xi)e^{-\gamma t} -\xi
 
 \clearpage
 \section{Код программы}\label{code}
+\singlespace
 \lstinputlisting[language=Python, firstline=1, lastline=32]{lab5.py}
 
 \end{document} % Конец текста.
