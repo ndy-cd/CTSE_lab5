@@ -8,6 +8,7 @@
 \usepackage{mathtools}				% математический пакет (включает ams)
 \usepackage[thinc]{esdiff}			% производные
 \usepackage{graphicx}				% изображения
+\usepackage{wrapfig}				% Обтекание рисунков и таблиц текстом
 \usepackage{listings}				% програмный код
 \lstset{
 	numbers=left               
@@ -43,17 +44,17 @@
 		\textsc{\textbf{Компьютерные технологии\\ в науке и образовании\\ Задание № 5}}
 	\end{center}
 	\vfill
-	\newbox{\lbox}
-	\savebox{\lbox}{\hbox{ПупИванович}}
-	\newlength{\maxl}
-	\setlength{\maxl}{\wd\lbox}
-	\hfill\parbox{15cm}{
-		\begin{flushright}
-		\hfill Преподаватель:   \hbox to\maxl{доцент кафедры теоретической физики, Хайбрахманов С. А.\hfill}\\
-		\hfill Студент:   \hbox to\maxl{Бартая Н.В.\hfill}\\
-		\hfill Группа:   \hbox to\maxl{ФМ - 101\hfill}\\
-		\end{flushright}
-	}
+	\singlespace
+	\begin{flushright}
+	\begin{tabular}{r p{0.3\textwidth}l}
+		Преподаватель:&	доцент кафедры теор. физики, кандидат физ.-мат.наук 
+		
+		Хайбрахманов С.А. \\[5pt]
+		Студент:&	Бартая Н.В.		\\[5pt]
+		Группа:& 	ФМ-101			\\
+	\end{tabular}
+	\end{flushright}
+	\onehalfspacing
 	\vfill
 	\begin{center}
 		Челябинск, 2020	
@@ -66,7 +67,7 @@
 \newpage
 \section{Постановка задачи}\label{Problem}
 Требуется рассчитать траекторию движения электрона в скрещенных
-постоянных магнитном и электрическом полях с напряженностями 10 А/м и 10 В/м, соответственно. 
+постоянных магнитном и электрическом полях с напряженностями 1 А/м и 100 В/м, соответственно. 
 Начальная скорость электрона $\mathbf{v}_0$ направлена перпендикулярно вектору напряженности магнитного поля и составляет 10 см/с.
 Геометрия задачи представлена на рисунке ниже. За единицу длины примем сантиметр.
 
@@ -90,14 +91,14 @@ m\diff{\mathbf{v}}{t} = \mathbf{F},
 Используя уравнения \eqref{motion} и \eqref{lorenz}, с учётом геометрии задачи \ref{problem} запишем следующую систему уравнений для компонент скоростей движения электрона - 
 \begin{equation}\label{v_system}
 \begin{cases}
-\diff{v_x}{t} = \frac{e}{m}E_x + \frac{e}{cm}\left(v_yB_z\right),	& 	v_x(0) = 10 \\[10pt]
+\diff{v_x}{t} = \frac{e}{m}E_x + \frac{e}{cm}\left(v_yB_z\right),	& 	v_x(0) = 10 ; \\[10pt]
 \diff{v_y}{t} = -\frac{e}{mc} v_x B_z,					&	v_y(0) = 0 . \\
 \end{cases}
 \end{equation}
 Уравнения для нахождения траектории мы получим из решений системы \eqref{v_system}. Так как по определению \cite{Landau:mech} скорость $\mathbf{v} = d\mathbf{r}/dt$, то уравнения для нахождения координат частиц можно определить, как систему дифференциальных уравнений первого порядка:
 \begin{equation}\label{r_system}
 \begin{cases}
-\diff{r_x}{t} = v_r, 	&	r_x(0) = 1	\\[10pt]
+\diff{r_x}{t} = v_r, 	&	r_x(0) = 1 ;	\\[10pt]
 \diff{r_y}{t} = v_y, 	&	r_y(0) = 1.	\\
 \end{cases}
 \end{equation}
@@ -114,7 +115,7 @@ m\diff{\mathbf{v}}{t} = \mathbf{F},
 \]
 введём обозначение $\dfrac{e}{cm}B_z = \gamma$ и подставим второе уравнение вместо $\dot{v_y}$. Получим однородное дифференциальное уравнение второго порядка:
 \[
-\ddot{v_x} + \gamma^2 v_x = 0		
+\ddot{v_x} + \gamma^2 v_x = 0 .		
 \]
 Корни характеристического уравнения оказываются чисто мнимыми и равными ${\lambda_{1,2} = \pm \gamma i}$, следовательно общее решение имеет вид:
 \begin{equation}\label{vx_common}
@@ -144,7 +145,7 @@ r_y &= \left[\xi \, \sin{\gamma t} + 10 \, \cos{\gamma t} - 10\right] \gamma^{-1
 	\begin{cases}
 		\dot{v_x} = \left[eE_x + \dfrac{e}{c}\left(v_yB_z\right)\right]m^{-1}	
 											& 	v_x(0) = 10 \\[10pt]
-		\dot{v_y} = \dfrac{e}{mc} v_x B_z	&	v_y(0) = 0 \\[10pt]
+		\dot{v_y} = -\dfrac{e}{mc} v_x B_z	&	v_y(0) = 0 \\[10pt]
 		\dot{r_y} = v_y						&	r_x(0) = 1 \\[10pt]
 		\dot{r_y} = v_y						&	r_y(0) = 1 
 	\end{cases}
@@ -157,7 +158,7 @@ r_y &= \left[\xi \, \sin{\gamma t} + 10 \, \cos{\gamma t} - 10\right] \gamma^{-1
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\textwidth]{plotTrajectory.pdf}
-	\caption{Траектория частицы за интервал времени $t = [0, 1\text{e-}3]$ сек.}
+	\caption{Траектория частицы за интервал времени $t = [0, 1\text{e-}6]$ сек.}
 	\label{graph_t}
 \end{figure}
 
@@ -187,6 +188,7 @@ r_y &= \left[\xi \, \sin{\gamma t} + 10 \, \cos{\gamma t} - 10\right] \gamma^{-1
 %\addcontentsline{toc}{chapter}{bibname}
 \bibliographystyle{utf8gost705u}  			% стилевой файл для оформления по ГОСТу
 \bibliography{biblio}     					% файл библиографической базы 
+\addcontentsline{toc}{section}{Список литературы}
 
 
 
